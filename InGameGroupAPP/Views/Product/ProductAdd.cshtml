@@ -1,0 +1,47 @@
+﻿@model Product
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Add Product</h4>
+            <form class="forms-sample" asp-action="Add" asp-controller="Product" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="exampleInputName1">Product Title</label>
+                    <input type="text" class="form-control" id="exampleInputName1" placeholder="Başlığı giriniz.." name="Name">
+                    @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="exampleTextarea1">Product Description</label>
+                    <textarea class="form-control" id="exampleTextarea1" name="Description"></textarea>
+                    @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputName2">Product Image</label>
+                    <input type="text" class="form-control" id="exampleInputName2" name="ImageUrl">
+                    @Html.ValidationMessageFor(x => x.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputName4">Product Price</label>
+                    <input type="file" class="form-control" id="exampleInputName4" name="Price">
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Category</label>
+                    <select class="form-control form-control-lg" id="exampleFormControlSelect2" name="CategoryID">
+                        @foreach (var item in ViewBag.CategoryValues as List<SelectListItem>)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

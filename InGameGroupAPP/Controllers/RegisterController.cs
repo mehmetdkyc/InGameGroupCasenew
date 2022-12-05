@@ -25,8 +25,8 @@ namespace InGameGroupAPP.Controllers
             var jsonResult = client.PostAsync(endPoint, payload).Result.Content.ReadAsStringAsync().Result;
 
             //responseu deserialize ediyoruz.
-            var data = JsonConvert.DeserializeObject<IdentityResult>(jsonResult);
-            if (data.Succeeded)
+            var data = JsonConvert.DeserializeObject<UserManagerResponse>(jsonResult);
+            if (data.IsSuccess)
                 return RedirectToAction("Index", "Login");
             return RedirectToAction("Index");
         }

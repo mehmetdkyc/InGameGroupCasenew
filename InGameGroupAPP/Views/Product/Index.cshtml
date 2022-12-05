@@ -4,15 +4,18 @@
 }
 
 
-
-@foreach (var item in Model)
-{
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">@item.Name</h5>
-            <p class="card-text">@item.Description</p>
-            <a href="Product/@item.ProductId" class="btn btn-primary">Go Detail</a>
+<div class="card-group">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Description</p>
+                <a href="~/Product/ProductDetail/@item.Name/@item.ProductId" class="btn btn-primary">Go Detail</a>
+                <a href="~/Product/Delete/@item.ProductId" class="btn btn-primary">Delete</a>
+                <a href="~/Product/UpdateProduct/@item.ProductId" class="btn btn-primary">Update</a>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>

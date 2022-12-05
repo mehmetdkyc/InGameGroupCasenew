@@ -1,5 +1,6 @@
 ﻿using APIIngame.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,7 @@ namespace InGameGroupAPP.Controllers
             if (data.IsSuccess)
             {
                 HttpContext.Session.SetString("JWToken", data.Message);
+                HttpContext.Session.SetString("UserEmail", loginModel.Email);
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email,loginModel.Email)
@@ -43,6 +45,14 @@ namespace InGameGroupAPP.Controllers
             }
                 
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> LogOut()
+        {
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Login");
+
         }
     }
 }

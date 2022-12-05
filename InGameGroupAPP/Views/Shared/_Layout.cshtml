@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/InGameGroupAPP.styles.css" asp-append-version="true" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 </head>
 <body>
     <header>
@@ -19,12 +21,34 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+
+                        @if (Context.Session.GetString("UserEmail") == null)
+                        {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="~/Login/Index">Log In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="~/Register/Index">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="~/Product/Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="~/Category/Index">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="~/Login/LogOut">Log Out</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="~/User/ChangePassword" >Change Password</a>
+                            </li>
+
+                        }
                     </ul>
                 </div>
             </div>

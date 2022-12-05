@@ -1,0 +1,93 @@
+﻿@model Product
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Product Update</h4>
+            <form class="forms-sample">
+                <div class="form-group">
+                    <label for="titleProduct">Product Title</label>
+                    <input type="text" class="form-control" id="titleProduct" placeholder="Product name.." name="Name" value="@Model.Name">
+                    @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label for="imageProduct">Product Image</label>
+                    <input class="form-control" type="text" id="imageProduct" name="ImageUrl" value="@Model.ImageUrl">
+                    @Html.ValidationMessageFor(x => x.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Product Price</label>
+                    <input class="form-control" type="number" id="productPrice" name="Price" value="@Model.Price">
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Category</label>
+                    <select class="form-control form-control-lg" id="exampleFormControlSelect2" name="CategoryId" value="@Model.CategoryId">
+                        @foreach (var item in ViewBag.CategoryValues as List<SelectListItem>)
+                        {
+                            if (item.Value == Model.CategoryId.ToString())
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productContent">Product Description</label>
+                    <textarea class="form-control" id="productContent" name="Description">@Model.Description</textarea>
+                    @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                </div>
+
+                <button onclick="updateProduct(@Model.ProductId)" class="btn btn-gradient-primary mr-2">Güncelle</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function updateProduct(productId) {
+        if (productId == null) {
+            alert("Id boş olamaz.");
+            return false;
+        }
+        var titleProduct = $('#titleProduct').val();
+        var imageProduct = $('#imageProduct').val();
+        var productPrice = $('#productPrice').val();
+        var productContent = $('#productContent').val();
+        var CategoryValue = $('select[name=CategoryId]').val();
+
+        var model = {
+            ProductId: productId,
+            Name: titleProduct,
+            ImageUrl: imageProduct,
+            Description: productContent,
+            Price: productPrice,
+            CategoryID: CategoryValue,
+        };
+        console.log(model);
+        $.ajax(
+            {
+                type: "PUT",
+                url: '/Product/Update',
+                data: model,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = "/Product/Index";
+                },
+                error: function (response) {
+                    alert("Hata!");
+                }
+            }
+        );
+    }
+</script>
