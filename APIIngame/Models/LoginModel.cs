@@ -11,5 +11,6 @@ namespace APIIngame.Models
         [Required]
         [StringLength(50,MinimumLength =5)]
         public string  Password { get; set; }
+        public int RememberMe { get; set; }
     }
 }

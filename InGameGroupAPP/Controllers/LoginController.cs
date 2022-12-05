@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Web;
 using System.Security.Claims;
 using System.Text;
 
@@ -16,6 +17,8 @@ namespace InGameGroupAPP.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var userEmail = HttpContext.Request.Cookies["userEmail"];
+            ViewBag.Email = userEmail;
             return View();
         }
         [HttpPost]
@@ -34,6 +37,11 @@ namespace InGameGroupAPP.Controllers
             {
                 HttpContext.Session.SetString("JWToken", data.Message);
                 HttpContext.Session.SetString("UserEmail", loginModel.Email);
+
+                //remember me 
+                if (loginModel.RememberMe == 1)
+                    Response.Cookies.Append("userEmail", loginModel.Email);
+
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email,loginModel.Email)

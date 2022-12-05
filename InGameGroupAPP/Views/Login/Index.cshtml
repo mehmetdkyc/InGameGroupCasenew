@@ -48,25 +48,56 @@
 </head>
 <body>
     <div class="login-form">
-        <form asp-controller="Login" asp-action="Index" method="post">
+        <div>
             <h2 class="text-center">Log in</h2>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="Email" required="required" name="Email">
+                <input type="email" class="form-control" placeholder="Email" required="required" name="Email" value="@ViewBag.Email" id="emailAddress">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" required="required" name="Password">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                <input type="password" class="form-control" placeholder="Password" required="required" name="Password" id="password">
             </div>
             <div class="clearfix">
-                <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>
+                <label class="float-left form-check-label"><input type="checkbox" name="RememberMe" id="rememberMe"> Remember me</label>
                 <a href="~/User/ForgotPassword" class="float-right">Forgot Password?</a>
             </div>
-        </form>
+            <div class="form-group">
+                <button onclick="Login()" class="btn btn-primary btn-block">Log in</button>
+            </div>
+
+        </div>
         <p class="text-center"><a href="~/Register/Index">Create an Account</a></p>
     </div>
 
 
 </body>
 </html>
+<script>
+    function Login() {
+        var email = $('#emailAddress').val();
+        var password = $('#password').val();
+        
+        var rememberMe = $('#rememberMe').is(":checked") ? 1 : 0;
+        console.log(rememberMe);
+        var model = {
+            Email: email,
+            Password: password,
+            RememberMe: rememberMe,
+        };
+        $.ajax(
+            {
+                type: "POST",
+                url: 'Index',
+                data: model,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = "/Product/Index";
+                },
+                error: function (response) {
+                    alert("Hata!");
+                }
+            }
+        );
+    }
+</script>
+
