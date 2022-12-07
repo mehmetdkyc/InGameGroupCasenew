@@ -44,7 +44,7 @@ namespace InGameGroupAPP.Controllers
             ViewBag.CategoryValues = categoryValues;
             return View();
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [Route("Product/ProductDetail/{productName}/{id}")]
         public async Task<IActionResult> ProductDetail(string productName, int id)
         {
